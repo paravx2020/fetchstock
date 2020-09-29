@@ -111,3 +111,20 @@ if __name__ == "__main__":
 	app.run(host='0.0.0.0')
 
 ```
+
+Run the above app with command line arguments as shown below 
+
+```
+/fetchstock/src$ python main.py C227WD9W3LUVKVV9 AMZN 5
+ * Serving Flask app "main" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+```
+
+And when you click the link below, you can see the output webpage (templates/test.html) as shown below.
+http://0.0.0.0:5000/
+
+
