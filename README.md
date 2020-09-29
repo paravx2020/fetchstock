@@ -114,7 +114,7 @@ if __name__ == "__main__":
 
 Run the above app with command line arguments as shown below 
 **$ cd src/
-**$ python main.py ReplaceWithYourAPIKEY AMZN 5**
+**$ python main.py ReplaceWithYourAPIKEY MSFT 7**
 ```
  * Serving Flask app "main" (lazy loading)
  * Environment: production
@@ -127,5 +127,5 @@ Run the above app with command line arguments as shown below
 And when you copy the link below and run in browser, you can see the output webpage (templates/test.html) as shown below.
 http://0.0.0.0:5000/
 
-![alt text](src/templates/test.html)
+![OUTPUT](src/templates/test.html)
 
