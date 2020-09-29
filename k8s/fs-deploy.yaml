@@ -61,7 +61,7 @@ spec:
     spec:
       containers:
         - name: fetchstock
-          image: venpara/fetchstock:latest
+          image: fetchstock:latest
           imagePullPolicy: Never
           command: [ "python", "/app/main.py", "$(APIKEY)", "$(SYMBOL)", "$(NDAYS)" ]
           envFrom:
