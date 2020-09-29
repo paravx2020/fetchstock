@@ -255,7 +255,7 @@ Status:
 ```
 Step2: Apply kubernetes manifest(s) to create namespace(fetchstock), deployment, service, secret (for APIKEY) and configmap (for SYMBOL & NDAYS)
 
-**cd k8s/**
+**$ cd k8s/**
 ```
 $ kubectl apply -f fs-deploy.yaml 
 namespace/fetchstock created
