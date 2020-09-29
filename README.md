@@ -152,4 +152,83 @@ ENTRYPOINT [ "python", "/app/main.py" ]
 CMD [ "$APIKEY, "$SYMBOL", "$NDAYS" ] 
 
 ```
+Now we need to create the Docker image. If you are using the 'minikube', make sure you run the command below so that the docker will be created on that node.
 
+step1: Start minikube
+```
+$ minikube start
+😄  minikube v1.13.1 on Ubuntu 18.04
+✨  Using the docker driver based on existing profile
+👍  Starting control plane node minikube in cluster minikube
+🔄  Restarting existing docker container for "minikube" ...
+🐳  Preparing Kubernetes v1.19.2 on Docker 19.03.8 ...
+🔎  Verifying Kubernetes components...
+🌟  Enabled addons: default-storageclass, storage-provisioner
+🏄  Done! kubectl is now configured to use "minikube" by default
+```
+Step2: Run the command below
+```
+$ eval $(minikube docker-env)
+
+$ docker image ls
+REPOSITORY                                TAG                 IMAGE ID            CREATED             SIZE
+hello-python                              latest              460492c64502        41 hours ago        885MB
+k8s.gcr.io/kube-proxy                     v1.19.2             d373dd5a8593        12 days ago         118MB
+k8s.gcr.io/kube-controller-manager        v1.19.2             8603821e1a7a        12 days ago         111MB
+k8s.gcr.io/kube-apiserver                 v1.19.2             607331163122        12 days ago         119MB
+k8s.gcr.io/kube-scheduler                 v1.19.2             2f32d66b884f        12 days ago         45.7MB
+python                                    3.7                 11c6e5fd966a        2 weeks ago         876MB
+gcr.io/k8s-minikube/storage-provisioner   v3                  bad58561c4be        3 weeks ago         29.7MB
+k8s.gcr.io/etcd                           3.4.13-0            0369cf4303ff        4 weeks ago         253MB
+kubernetesui/dashboard                    v2.0.3              503bc4b7440b        3 months ago        225MB
+k8s.gcr.io/coredns                        1.7.0               bfe3a36ebd25        3 months ago        45.2MB
+kubernetesui/metrics-scraper              v1.0.4              86262685d9ab        6 months ago        36.9MB
+k8s.gcr.io/pause                          3.2                 80d28bedfe5d        7 months ago        683kB
+```
+
+Step3: Create the docker image
+```
+$ docker build -t fetchstock .
+Sending build context to Docker daemon  20.48kB
+Step 1/11 : FROM python:3.7
+ ---> 11c6e5fd966a
+Step 2/11 : ENV APIKEY="replaceMe"
+ ---> Using cache
+ ---> f990ee4ab5fb
+Step 3/11 : ENV SYMBOL="MSFT"
+ ---> Using cache
+ ---> fe1f73ef5adc
+Step 4/11 : ENV NDAYS=7
+ ---> Using cache
+ ---> d3da6ac1daef
+Step 5/11 : WORKDIR /app
+ ---> Using cache
+ ---> d292da795558
+Step 6/11 : COPY src/requirements.txt ./
+ ---> Using cache
+ ---> 36bdb4dbcafb
+Step 7/11 : RUN pip install -r requirements.txt
+ ---> Using cache
+ ---> a832a838b6b2
+Step 8/11 : COPY src /app
+ ---> 7d998ce2bcfb
+Step 9/11 : EXPOSE 5000
+ ---> Running in fe6bec512809
+Removing intermediate container fe6bec512809
+ ---> 917ffe040861
+Step 10/11 : ENTRYPOINT [ "python", "/app/main.py" ]
+ ---> Running in 69a804d48342
+Removing intermediate container 69a804d48342
+ ---> 6f4052c60001
+Step 11/11 : CMD [ "$APIKEY, "$SYMBOL", "$NDAYS" ]
+ ---> Running in 116295fd578b
+Removing intermediate container 116295fd578b
+ ---> e7394010c3fc
+Successfully built e7394010c3fc
+Successfully tagged fetchstock:latest
+
+```
+
+
+
+Here is how you test the app with the above Docker Image.
