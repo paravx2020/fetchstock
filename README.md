@@ -233,5 +233,48 @@ Make sure the image is now created
 $ docker image ls |grep fetchstock
 fetchstock                                latest              e7394010c3fc        About a minute ago   1.03GB
 ```
+## Kubernetes manifests and testing on 'minikube'
 
+Step1: Enable tunnel on minikube so that our app can be accessible on web
+
+Run this command in a seperate terminal (this is something similar to kubectl port-forwarding)
+
+**$ minikube tunnel**
+```
+[sudo] password for ubuntu: 
+Status:	
+	machine: minikube
+	pid: 14257
+	route: 10.96.0.0/12 -> 172.17.0.2
+	minikube: Running
+	services: []
+    errors: 
+		minikube: no errors
+		router: no errors
+		loadbalancer emulator: no errors
+```
+Step2: Apply kubernetes manifest(s) to create namespace(fetchstock), deployment, service, secret (for APIKEY) and configmap (for SYMBOL & NDAYS)
+
+**cd k8s/**
+```
+$ kubectl apply -f fs-deploy.yaml 
+namespace/fetchstock created
+configmap/fetchstock-config created
+secret/apikey-secret created
+service/fetchstock-service created
+deployment.apps/fetchstock created
+
+$ kubectl get deployments -n fetchstock
+NAME         READY   UP-TO-DATE   AVAILABLE   AGE
+fetchstock   2/2     2            2           28s
+
+$ kubectl get pods -n fetchstock
+NAME                          READY   STATUS    RESTARTS   AGE
+fetchstock-558644d697-c74fr   1/1     Running   0          36s
+fetchstock-558644d697-j7xg7   1/1     Running   0          36s
+
+$ kubectl get svc -n fetchstock
+NAME                 TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)          AGE
+fetchstock-service   LoadBalancer   10.108.238.187   10.108.238.187   8000:30573/TCP   42s
+```
 
