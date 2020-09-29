@@ -114,8 +114,8 @@ if __name__ == "__main__":
 
 Run the above app with command line arguments as shown below 
 
-```
 **~fetchstock/src$ python main.py C227WD9W3LUVKVV9 AMZN 5**
+```
  * Serving Flask app "main" (lazy loading)
  * Environment: production
    WARNING: This is a development server. Do not use it in a production deployment.
