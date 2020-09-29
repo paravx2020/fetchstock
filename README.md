@@ -277,4 +277,5 @@ $ kubectl get svc -n fetchstock
 NAME                 TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)          AGE
 fetchstock-service   LoadBalancer   10.108.238.187   10.108.238.187   8000:30573/TCP   42s
 ```
+Output:
 
