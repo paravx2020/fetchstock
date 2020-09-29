@@ -5,11 +5,7 @@ Fetch and Show the stock price for a SYMBOL from Alpha-vantage
 ## Index
 
 1. Python application using Flask
-    - Explanation
-    - Testing
-2. Creating a Docker Image
-    - Explanation
-    - Testing the Docker Image
+2. Creating & Testing a Docker Image
 3. Kuberentes manifests
     - ConfigMap for SYMBOL and NDAYS
     - Secret for APIKEY
@@ -129,4 +125,31 @@ Run the above app with command line arguments as shown below
 And when you copy the link below and run in browser, you can see the output webpage (templates/test.html) as shown below.
 http://0.0.0.0:5000/
 
+## Creating & Testing a Docker image:
+
+Below is the 'dockerfile' code:
+**$ cat dockerfile**
+``` 
+FROM python:3.7
+
+ENV APIKEY="replaceMe"
+ENV SYMBOL="MSFT"
+ENV NDAYS=7
+
+# Create app directory
+WORKDIR /app
+
+# Install app dependencies
+COPY src/requirements.txt ./
+
+RUN pip install -r requirements.txt
+
+# Bundle app source
+COPY src /app
+
+EXPOSE 5000
+ENTRYPOINT [ "python", "/app/main.py" ]
+CMD [ "$APIKEY, "$SYMBOL", "$NDAYS" ] 
+
+```
 
