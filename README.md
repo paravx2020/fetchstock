@@ -277,5 +277,8 @@ $ kubectl get svc -n fetchstock
 NAME                 TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)          AGE
 fetchstock-service   LoadBalancer   10.108.238.187   10.108.238.187   8000:30573/TCP   42s
 ```
-Output:
+## Output:
+Based on the IP address (when you run), you can access the stock closing-price over N days and its average.
+As you can see in the 'fetchstock-service' above, the app is now exposed on http://{EXTERNAL-IP}:8000
 
+You can also check this in ![test.html](src/templates/test.html)
