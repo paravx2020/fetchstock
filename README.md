@@ -129,5 +129,4 @@ Run the above app with command line arguments as shown below
 And when you copy the link below and run in browser, you can see the output webpage (templates/test.html) as shown below.
 http://0.0.0.0:5000/
 
-![OUTPUT](src/templates/test.html)
 
