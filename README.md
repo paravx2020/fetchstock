@@ -124,8 +124,8 @@ Run the above app with command line arguments as shown below
  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
 ```
 
-And when you click the link below, you can see the output webpage (templates/test.html) as shown below.
+And when you copy the link below and run in browser, you can see the output webpage (templates/test.html) as shown below.
 http://0.0.0.0:5000/
 
-
+![alt text](src/templates/test.html)
 
