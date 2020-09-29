@@ -1,0 +1,79 @@
+---
+### ConfigMap for the SYMBOL and NDAYS
+apiVersion: v1
+data:
+  SYMBOL: "TSLA"
+  NDAYS: "10"
+kind: ConfigMap
+metadata:
+  name: fetchstock-config
+  namespace: default
+---
+### apikey-secret
+apiVersion: v1
+data:
+  APIKEY: "QzIyN1dEOVczTFVWS1ZWOQ=="
+kind: Secret
+metadata:
+  name: apikey-secret
+  namespace: default
+type: Opaque
+---
+### fetchstock-service
+apiVersion: v1
+kind: Service
+metadata:
+  name: fetchstock-service
+spec:
+  selector:
+    app: fetchstock
+  ports:
+    - protocol: "TCP"
+      port: 8000
+      targetPort: 5000
+  type: LoadBalancer
+---
+### fetchstock-deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fetchstock
+spec:
+  selector:
+    matchLabels:
+      app: fetchstock
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: fetchstock
+      annotations:
+        # The field we'll use to couple our ConfigMap and Deployment
+        configHash: "" 
+    spec:
+      containers:
+        - name: fetchstock
+          image: venpara/fetchstock:latest
+          imagePullPolicy: Never
+          command: [ "python", "/app/main.py", "$(APIKEY)", "$(SYMBOL)", "$(NDAYS)" ]
+          envFrom:
+          - configMapRef:
+              name: fetchstock-config 
+          env:
+            - name: APIKEY
+              valueFrom:
+                secretKeyRef:
+                  name: apikey-secret
+                  key: APIKEY
+            - name: SYMBOL
+              valueFrom:
+                configMapKeyRef:
+                  name: fetchstock-config
+                  key: SYMBOL
+            - name: NDAYS
+              valueFrom:
+                configMapKeyRef:
+                  name: fetchstock-config
+                  key: NDAYS
+          ports:
+            - containerPort: 5000
