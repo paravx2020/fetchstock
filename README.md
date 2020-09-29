@@ -282,3 +282,24 @@ Based on the IP address (when you run), you can access the stock closing-price o
 As you can see in the 'fetchstock-service' above, the app is now exposed on http://{EXTERNAL-IP}:8000
 
 You can also check this in ![test.html](src/templates/test.html)
+
+## Delete the K8s resources
+Once tested successfully, you can delete the resources as shown below
+```
+$ kubectl delete -f fs-deploy.yaml 
+namespace "fetchstock" deleted
+configmap "fetchstock-config" deleted
+secret "apikey-secret" deleted
+service "fetchstock-service" deleted
+deployment.apps "fetchstock" deleted
+
+$ kubectl get deployments -n fetchstock
+No resources found in fetchstock namespace.
+
+$ kubectl get pods -n fetchstock
+No resources found in fetchstock namespace.
+
+$ kubectl get svc -n fetchstock
+No resources found in fetchstock namespace. 
+```
+
