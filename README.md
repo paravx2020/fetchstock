@@ -17,7 +17,7 @@ Fetch and Show the stock price for a SYMBOL from Alpha-vantage
     - Service
 4. Testing the 'fetchstock' app on Minikube
 
-## Python application using Flask
+## Python application with Flask
 
 The following is a Python function to fetch the stock closing price for N days from Alphavantage API.
 You need a API key from Alphavantage which you can generate free from their website. The collected stock data is written to a HTML file called templates/html.test
@@ -61,4 +61,29 @@ def Fetchstock(APIKEY: str, SYMBOL: str, NDAYS: int):
 	stockfile.write(newline)
 	stockfile.write(html2)
 	stockfile.close()
+```
+Now, take a look at the Flask app which makes use of the above function.
+It is using command-line arguments for getting the values for APIKEY, SYMBOL and NDAYS as shown below.
+
+```
+FROM python:3.7
+
+ENV APIKEY="replaceMe"
+ENV SYMBOL="MSFT"
+ENV NDAYS=7
+
+# Create app directory
+WORKDIR /app
+
+# Install app dependencies
+COPY src/requirements.txt ./
+
+RUN pip install -r requirements.txt
+
+# Bundle app source
+COPY src /app
+
+EXPOSE 5000
+ENTRYPOINT [ "python", "/app/main.py" ]
+CMD [ "$APIKEY, "$SYMBOL", "$NDAYS" ] 
 ```
