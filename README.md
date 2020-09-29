@@ -20,7 +20,9 @@ Fetch and Show the stock price for a SYMBOL from Alpha-vantage
 ## Python application using Flask
 
 The following is a Python function to fetch the stock closing price for N days from Alphavantage API.
-You need a API key from Alphavantage which you can generate free from their website.
+You need a API key from Alphavantage which you can generate free from their website. The collected stock data is written to a HTML file called templates/html.test
+The INPUTS required for this function are: APIKEY, SYMBOL and NDAYS
+
 
 ```
 ## Author: Ven Para
