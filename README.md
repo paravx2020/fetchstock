@@ -228,7 +228,10 @@ Successfully built e7394010c3fc
 Successfully tagged fetchstock:latest
 
 ```
+Make sure the image is now created 
+```
+$ docker image ls |grep fetchstock
+fetchstock                                latest              e7394010c3fc        About a minute ago   1.03GB
+```
 
 
-
-Here is how you test the app with the above Docker Image.
