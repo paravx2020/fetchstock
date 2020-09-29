@@ -1,13 +1,19 @@
 ---
+### Create fetchstock namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: fetchstock
+---
 ### ConfigMap for the SYMBOL and NDAYS
 apiVersion: v1
 data:
-  SYMBOL: "TSLA"
-  NDAYS: "10"
+  SYMBOL: "MSFT"
+  NDAYS: "7"
 kind: ConfigMap
 metadata:
   name: fetchstock-config
-  namespace: default
+  namespace: fetchstock
 ---
 ### apikey-secret
 apiVersion: v1
@@ -16,7 +22,7 @@ data:
 kind: Secret
 metadata:
   name: apikey-secret
-  namespace: default
+  namespace: fetchstock
 type: Opaque
 ---
 ### fetchstock-service
@@ -24,6 +30,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: fetchstock-service
+  namespace: fetchstock
 spec:
   selector:
     app: fetchstock
@@ -38,6 +45,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fetchstock
+  namespace: fetchstock
 spec:
   selector:
     matchLabels:
