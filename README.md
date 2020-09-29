@@ -17,6 +17,26 @@ Fetch and Show the stock price for a SYMBOL from Alpha-vantage
     - Service
 4. Testing the 'fetchstock' app on Minikube
 
+## The Project files
+
+Here is the list of files in this project:
+
+```
+.
+├── docker
+│   └── dockerfile
+├── dockerfile
+├── k8s
+│   └── fs-deploy.yaml
+├── README.md
+└── src
+    ├── fs.py
+    ├── main.py
+    ├── requirements.txt
+    └── templates
+        └── test.html
+```
+
 ## Python application with Flask
 
 The following is a Python function to fetch the stock closing price for N days from Alphavantage API.
@@ -25,6 +45,8 @@ The INPUTS required for this function are: APIKEY, SYMBOL and NDAYS
 
 
 ```
+$ cat fs.py
+
 ## Author: Ven Para
 ## Date: 28-Sep-2020
 
@@ -66,24 +88,26 @@ Now, take a look at the Flask app which makes use of the above function.
 It is using command-line arguments for getting the values for APIKEY, SYMBOL and NDAYS as shown below.
 
 ```
-FROM python:3.7
+$ cat src/main.py
 
-ENV APIKEY="replaceMe"
-ENV SYMBOL="MSFT"
-ENV NDAYS=7
+from fs import Fetchstock
+from flask import Flask
+from flask import render_template
+import sys
 
-# Create app directory
-WORKDIR /app
+### Command-line arguments 
+APIKEY = str(sys.argv[1])
+SYMBOL = str(sys.argv[2])
+NDAYS = int(sys.argv[3])
 
-# Install app dependencies
-COPY src/requirements.txt ./
+app = Flask(__name__)
 
-RUN pip install -r requirements.txt
+@app.route("/")
+def fetch_stock():
+    Fetchstock(APIKEY,SYMBOL,NDAYS)
+    return render_template("test.html")
+    
+if __name__ == "__main__":
+	app.run(host='0.0.0.0')
 
-# Bundle app source
-COPY src /app
-
-EXPOSE 5000
-ENTRYPOINT [ "python", "/app/main.py" ]
-CMD [ "$APIKEY, "$SYMBOL", "$NDAYS" ] 
 ```
