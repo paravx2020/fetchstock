@@ -113,7 +113,7 @@ if __name__ == "__main__":
 ```
 
 Run the above app with command line arguments as shown below 
-
+**$ cd src/
 **$ python main.py ReplaceWithYourAPIKEY AMZN 5**
 ```
  * Serving Flask app "main" (lazy loading)
